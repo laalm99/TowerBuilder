@@ -9,6 +9,7 @@ public class RoomMovement : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject indicator;
     [SerializeField] private Transform[] rayPoints;
+    [SerializeField] private LayerMask roomMask = 6;
 
     // Update is called once per frame
     void Update()
@@ -35,13 +36,24 @@ public class RoomMovement : MonoBehaviour
         if(CheckIfValid() && Input.GetMouseButtonDown(0))
         {
             isPlaced = true;
-            indicator.SetActive(false);
         }
     }
 
     private bool CheckIfValid()
     {
-        return true;
         //raycast + layermask
+        for (int i = 0; i<rayPoints.Length; i++)
+        {
+
+            if(!Physics.Raycast(rayPoints[i].position, Vector3.down, out RaycastHit hit, 1.5f, roomMask))
+            {
+                indicator.SetActive(true);
+
+                return false;
+            }
+        }
+
+        indicator.SetActive(false);
+        return true;
     }
 }
