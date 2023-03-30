@@ -6,10 +6,16 @@ public class RoomMovement : MonoBehaviour
 {
 
     private bool isPlaced;
-    [SerializeField] private Camera mainCamera;
+    private bool isOverlapping;
+    private Camera mainCamera;
+    private LayerMask roomMask = (1 << 6);
     [SerializeField] private GameObject indicator;
     [SerializeField] private Transform[] rayPoints;
-    [SerializeField] private LayerMask roomMask = 6;
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,9 +45,30 @@ public class RoomMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (isPlaced)
+            return;
+
+        isOverlapping = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (isPlaced)
+            return;
+
+        isOverlapping = false;
+    }
+
     private bool CheckIfValid()
     {
-        //raycast + layermask
+        if (isOverlapping)
+        {
+            indicator.SetActive(true);
+            return false;
+        }
+
         for (int i = 0; i<rayPoints.Length; i++)
         {
 
@@ -57,3 +84,4 @@ public class RoomMovement : MonoBehaviour
         return true;
     }
 }
+
