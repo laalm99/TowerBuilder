@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,24 +14,45 @@ public enum RoomType
 
 public class Room : MonoBehaviour
 {
+
+    #region Variables
     private LayerMask roomMask = (1 << 6);
+    [SerializeField] private float timer;
+
+    [Space]
+    [Header("Stats:")]
+    [SerializeField] protected float cost;
+    [SerializeField] protected float value;
+    [SerializeField] protected float happiness;
+    [SerializeField] protected float frequency;
+
+    [Space]
+    [Header("Walls:")]
     [SerializeField] private GameObject rightWall;
     [SerializeField] private GameObject leftWall;
+    [SerializeField] private GameObject rightDoorWall;
+    [SerializeField] private GameObject leftDoorWall;
     [SerializeField] private RoomType roomType;
     public RoomType Type => roomType;
+    public float Cost => cost;
+    #endregion
 
+
+    private void Start()
+    {
+        RoomMovement.PlaceRoomEvent += WallBehaviour;
+    }
 
     protected void WallBehaviour()
     {
-        if (Physics.Raycast(rightWall.transform.position, Vector3.right, out RaycastHit hit, 0.5f, roomMask))
+        if (Physics.Raycast(rightWall.transform.position, Vector3.right, out RaycastHit hit, 0.1f, roomMask))
         {
-            if (hit.collider.GetComponent<Room>().Type.Equals(roomType))
+           
+            rightWall.SetActive(false);
+
+            if (!hit.collider.GetComponent<Room>().Type.Equals(roomType))
             {
-                rightWall.SetActive(false);
-            }
-            else
-            {
-                rightWall.SetActive(true);
+                rightDoorWall.SetActive(true);
             }
         }
         else
@@ -38,15 +60,14 @@ public class Room : MonoBehaviour
             rightWall.SetActive(true);
         }
 
-        if (Physics.Raycast(leftWall.transform.position, Vector3.left, out RaycastHit _hit, 0.5f, roomMask))
+        if (Physics.Raycast(leftWall.transform.position, Vector3.left, out RaycastHit _hit, 0.1f, roomMask))
         {
-            if (_hit.collider.GetComponent<Room>().Type.Equals(roomType))
+            
+            leftWall.SetActive(false);
+
+            if (!_hit.collider.GetComponent<Room>().Type.Equals(roomType))
             {
-                leftWall.SetActive(false);
-            }
-            else
-            {
-                leftWall.SetActive(true);
+                leftDoorWall.SetActive(true);
             }
         }
         else
@@ -54,6 +75,21 @@ public class Room : MonoBehaviour
             leftWall.SetActive(true);
         }
 
+    }
+
+    protected void BalacingBehaviour()
+    {
+        if (!GameManager.Instance.CheckGameEnded())
+        {
+            timer += Time.deltaTime;
+            if (timer >= frequency)
+            {
+                GameManager.Instance.PlayerWallet += value;
+                GameManager.Instance.PlayerHappiness += happiness;
+                timer = 0;
+            }
+        }
+       
     }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class RoomMovement : MonoBehaviour
     private LayerMask roomMask = (1 << 6);
     [SerializeField] private GameObject indicator;
     [SerializeField] private Transform[] rayPoints;
+    public static event Action PlaceRoomEvent;
 
     private void Start()
     {
@@ -42,6 +44,7 @@ public class RoomMovement : MonoBehaviour
         if(CheckIfValid() && Input.GetMouseButtonDown(0))
         {
             isPlaced = true;
+            PlaceRoomEvent?.Invoke();
         }
     }
 
@@ -85,3 +88,10 @@ public class RoomMovement : MonoBehaviour
     }
 }
 
+/*
+ * 
+ * grid layout group
+ * vertical/horizontal layout group
+ * content size fitter (prefered size) >> in the text 
+ * layoutrebuilder.forcelayout
+ */

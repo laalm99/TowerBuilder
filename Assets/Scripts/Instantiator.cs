@@ -7,6 +7,15 @@ public class Instantiator : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private GameObject menu;
+    [SerializeField] private Transform parentRoom;
+
+    private void Update()
+    {
+        if(GameManager.Instance.CheckGameEnded())
+        {
+            button.enabled = false;
+        }
+    }
 
     public void OpenMenu()
     {
@@ -18,6 +27,14 @@ public class Instantiator : MonoBehaviour
     {
         menu.SetActive(false);
         button.enabled = true;
-        Instantiate(prefab, transform.position, Quaternion.identity);
+        GameObject room = Instantiate(prefab, parentRoom);
+        GameManager.Instance.AddRooms(room);
+    }
+
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+        GameManager.Instance.RemoveLastRoom();
+        button.enabled = true;
     }
 }

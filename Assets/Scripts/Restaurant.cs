@@ -8,6 +8,6 @@ public class Restaurant : Room
     // Update is called once per frame
     void Update()
     {
-        WallBehaviour();
+        BalacingBehaviour();
     }
 }
