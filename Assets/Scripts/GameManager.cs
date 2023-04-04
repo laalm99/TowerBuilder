@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
         set
         {
             playerWallet = value;
-            UpdateCanvas();
         }
     } 
     public float PlayerHappiness
@@ -29,7 +28,6 @@ public class GameManager : MonoBehaviour
         set
         {
             playerHappiness = value;
-            UpdateCanvas();
         }
     }
     #endregion
@@ -46,24 +44,20 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateCanvas();
-       
 
         if (!CheckGameEnded())
         {
-           
+           //game end screen
         }
     }
 
+    /// <summary>
+    /// This method deducts the room's cost from the wallet and adds the generated room to the list
+    /// </summary>
     public void AddRooms(GameObject room)
     {
         playerWallet -= room.GetComponent<Room>().Cost;
@@ -72,16 +66,13 @@ public class GameManager : MonoBehaviour
 
     private void UpdateCanvas()
     {
-        walletText.text = playerWallet.ToString(format: "$00");
+        walletText.text = playerWallet.ToString(format: "$0");
         happinessText.text = playerHappiness.ToString();
     }
 
-    public void RemoveLastRoom()
-    {
-        if(generatedRooms.Count > 0)
-            generatedRooms.RemoveAt(generatedRooms.Count-1);
-    }
-
+    /// <summary>
+    /// If the overall happiness is less than or equals -75 the game ends
+    /// </summary>
     public bool CheckGameEnded()
     {
         if (playerHappiness <= -75)

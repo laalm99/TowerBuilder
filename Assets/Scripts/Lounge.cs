@@ -8,6 +8,6 @@ public class Lounge : Room
     // Update is called once per frame
     void Update()
     {
-        BalacingBehaviour();
+        BalancingEconomy();
     }
 }

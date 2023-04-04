@@ -7,7 +7,6 @@ public class CameraMovement : MonoBehaviour
     private Vector3 currentPosition;
     private Vector3 targetPosition;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +19,12 @@ public class CameraMovement : MonoBehaviour
         CameraMovementControl();
     }
 
+    /// <summary>
+    /// The camera moves depending on the user's input.
+    /// The camera can't go past 10 and -10 on the x-axis and 2.5 on the y-axis
+    /// </summary>
     void CameraMovementControl()
     {
-
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
             targetPosition = new Vector3(currentPosition.x - 1, currentPosition.y, currentPosition.z);

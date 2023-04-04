@@ -898,8 +898,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   cost: 5
-  value: 45
-  happiness: -50
+  value: 70
+  happiness: -35
   frequency: 10
   rightWall: {fileID: 8693190119195762321}
   leftWall: {fileID: 3700910865089524993}

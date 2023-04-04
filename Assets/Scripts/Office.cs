@@ -8,6 +8,6 @@ public class Office : Room
     // Update is called once per frame
     void Update()
     {
-        BalacingBehaviour();
+        BalancingEconomy();
     }
 }

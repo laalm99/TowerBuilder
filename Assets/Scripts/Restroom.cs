@@ -8,6 +8,6 @@ public class Restroom : Room
     // Update is called once per frame
     void Update()
     {
-        BalacingBehaviour();
+        BalancingEconomy();
     }
 }

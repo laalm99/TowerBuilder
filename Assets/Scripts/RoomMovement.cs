@@ -39,6 +39,10 @@ public class RoomMovement : MonoBehaviour
         transform.position = targetPos;
     }
 
+    /// <summary>
+    /// This method places a room if the room is valid and the player clicks.
+    /// It invoke the PlaceRoomEvent that then checks the Wall Behaviour in the Room script
+    /// </summary>
     void PlaceRoom()
     {
         if(CheckIfValid() && Input.GetMouseButtonDown(0))
@@ -48,6 +52,9 @@ public class RoomMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method makes it that as long as the collider is triggered, it's overlapping
+    /// </summary>
     private void OnTriggerStay(Collider other)
     {
         if (isPlaced)
@@ -56,6 +63,9 @@ public class RoomMovement : MonoBehaviour
         isOverlapping = true;
     }
 
+    /// <summary>
+    /// Once the room is not triggering another room's collider it's not overlapping
+    /// </summary>
     private void OnTriggerExit(Collider other)
     {
         if (isPlaced)
@@ -64,6 +74,10 @@ public class RoomMovement : MonoBehaviour
         isOverlapping = false;
     }
 
+    /// <summary>
+    /// This method activates the indicator if it's overlapping.
+    /// It also checks using the raypoints if there is no hit then it returns false and activates the indicator
+    /// </summary>
     private bool CheckIfValid()
     {
         if (isOverlapping)

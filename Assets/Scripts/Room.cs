@@ -43,6 +43,10 @@ public class Room : MonoBehaviour
         RoomMovement.PlaceRoomEvent += WallBehaviour;
     }
 
+    /// <summary>
+    /// Method to check to see what type of wall to add depending on what's next to the room
+    /// A raycast is cast from each wall and checks to the left or right
+    /// </summary>
     protected void WallBehaviour()
     {
         if (Physics.Raycast(rightWall.transform.position, Vector3.right, out RaycastHit hit, 0.1f, roomMask))
@@ -77,7 +81,13 @@ public class Room : MonoBehaviour
 
     }
 
-    protected void BalacingBehaviour()
+    /// <summary>
+    /// This method first checks if the game ended (happiness < -75).
+    /// Each room has a frequency, once the timer reaches the frequency it adds the room's value to wallet
+    /// and the room's happiness score to the overall happiness. Then the timer resets.
+    /// For example, every 5 seconds or every 10 seconds.
+    /// </summary>
+    protected void BalancingEconomy()
     {
         if (!GameManager.Instance.CheckGameEnded())
         {
@@ -93,15 +103,3 @@ public class Room : MonoBehaviour
     }
 
 }
-
-
-/*
- * Office: Lower Cost, Higher Income, Lower Happiness
- * Restaurant: Higher Cost, Higher Money, Higher Happiness
- * Lounge: Higher Cost, Lower Income, Higher Happiness
- * Restroom: Lower Cost, Lower Income, Higher Happiness
- * 
- * cast shadows only
- * 
- * 
- */
